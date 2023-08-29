@@ -1,18 +1,9 @@
-const { app, BrowserWindow, globalShortcut, session, ipcMain } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const zoomFilePath = path.join(__dirname, 'zoom-level.json');
 
-async function loadExtension(extensionName) {
-  const extensionPath = path.join(__dirname, 'extensions', extensionName);
-  try {
-    await session.defaultSession.loadExtension(extensionPath);
-    console.log(`${extensionName} extension added successfully.`);
-  } catch (error) {
-    console.error(`Failed to add ${extensionName} extension:`, error);
-  }
-}
 
 async function createWindow() {
   const win = new BrowserWindow({
@@ -25,8 +16,6 @@ async function createWindow() {
       preload: path.join(__dirname, 'renderer.js')
     }
   });
-
-  await loadExtension('darkreader');
 
   win.loadURL('https://mangafire.to');
 
